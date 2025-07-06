@@ -72,13 +72,18 @@ jobs:
           #   run: |
           #     New-Item -Path .\.sonar\scanner -ItemType Directory
           #     dotnet tool update dotnet-sonarscanner --tool-path .\.sonar\scanner
-          - name: Show Sonar Variable
+          - name: Show Sonar Variable (bash)
             working-directory: ./src
+            shell: bash
             env:
               SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-            shell: powershell
             run: |
-              echo "Meu token do Sonar é ${{ secrets.SONAR_TOKEN }}"
+              # Comprimento do token
+              echo "Length: ${#SONAR_TOKEN}"
+
+              # 4 primeiros caracteres
+              echo "First 4 chars: ${SONAR_TOKEN:0:4}"
+              
           # - name: Build and analyze
           #   working-directory: ./src
           #   env:
