@@ -14,7 +14,7 @@ jobs:
               dotnet-version: "8.0.300"
           - name: Execução do Teste de unidade
             working-directory: ./src
-            run: dotnet test ./Review-Filmes.Test.Unit/Review-Filmes.Test.Unit.
+            run: dotnet test ./Review-Filmes.Test.Unit/Review-Filmes.Test.Unit.csproj
             
     integration-test:
         name: Testes de Integração
