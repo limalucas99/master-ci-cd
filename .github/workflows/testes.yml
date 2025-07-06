@@ -63,7 +63,6 @@ jobs:
               dotnet sonarscanner begin \
                 /k:"limalucas99_master-ci-cd" \
                 /o:"limalucas99" \
-                /d:sonar.login=${SONAR_TOKEN} \
                 /d:sonar.host.url="https://sonarcloud.io"
 
                 
@@ -76,5 +75,4 @@ jobs:
               SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
             run: |
               dotnet sonarscanner end \
-                /d:sonar.login=${SONAR_TOKEN}
 
