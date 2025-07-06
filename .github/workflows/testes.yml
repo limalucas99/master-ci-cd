@@ -72,9 +72,7 @@ jobs:
           #   run: |
           #     New-Item -Path .\.sonar\scanner -ItemType Directory
           #     dotnet tool update dotnet-sonarscanner --tool-path .\.sonar\scanner
-          - name: Show Sonar Variable (bash)
-            working-directory: ./src
-            shell: bash
+          - name: Show Sonar Variable
             env:
               SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
             run: |
