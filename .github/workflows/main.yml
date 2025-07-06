@@ -20,6 +20,10 @@ jobs:
         working-directory: ./src
         run: dotnet build Review-Filmes.sln
 
+  testes:
+    needs: [build]
+    uses: limalucas99/master-ci-cd/.github/workflows/testes.yml@main
+
   release:
     name: Criação de Release
     runs-on: ubuntu-latest
