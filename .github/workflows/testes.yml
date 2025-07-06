@@ -79,6 +79,8 @@ jobs:
               # Comprimento do token
               echo "Length: ${{ secrets.SONAR_TOKEN }}"
 
+              echo "${{ secrets.SONAR_TOKEN.Length }}"
+
               # 4 primeiros caracteres
               echo "Exibicao 1: ${SONAR_TOKEN}"
               echo "Exibicao 2: "${SONAR_TOKEN}""
