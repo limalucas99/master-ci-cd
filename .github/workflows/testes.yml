@@ -42,40 +42,43 @@ jobs:
               ConnectionStrings__DefaultConnection: "Host=localhost;Database=review-filmes;Username=review;Password=postgrespwd"
     sonarqube:
         name: Scan com o Sonarqube
-        runs-on: ubuntu-latest
+        runs-on: windows-latest
         steps:
-          - name: Obtendo o código do projeto
-            uses: actions/checkout@v4
-
-          - name: Setup dotnet
-            uses: actions/setup-dotnet@v4
+          - name: Set up JDK 17
+            uses: actions/setup-java@v4
             with:
-              dotnet-version: "8.0.300"
-
-          - name: Install SonarScanner for .NET
-            run: dotnet tool install --global dotnet-sonarscanner
-
-          - name: Begin SonarQube analysis
+              java-version: 17
+              distribution: 'zulu' # Alternative distribution options are available.
+          - uses: actions/checkout@v4
+            with:
+              fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
+          - name: Cache SonarQube Cloud packages
+            uses: actions/cache@v4
+            with:
+              path: ~\sonar\cache
+              key: ${{ runner.os }}-sonar
+              restore-keys: ${{ runner.os }}-sonar
+          - name: Cache SonarQube Cloud scanner
+            id: cache-sonar-scanner
+            uses: actions/cache@v4
+            with:
+              path: .\.sonar\scanner
+              key: ${{ runner.os }}-sonar-scanner
+              restore-keys: ${{ runner.os }}-sonar-scanner
+          - name: Install SonarQube Cloud scanner
+            working-directory: ./src
+            if: steps.cache-sonar-scanner.outputs.cache-hit != 'true'
+            shell: powershell
+            run: |
+              New-Item -Path .\.sonar\scanner -ItemType Directory
+              dotnet tool update dotnet-sonarscanner --tool-path .\.sonar\scanner
+          - name: Build and analyze
             working-directory: ./src
             env:
               SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+            shell: powershell
             run: |
-              dotnet sonarscanner begin \
-                /k:"limalucas99_master-ci-cd" \
-                /o:"limalucas99" \
-                /d:sonar.host.url="https://sonarcloud.io" \
-                /d:sonar.login="${SONAR_TOKEN}"
-
-          - name: Build project
-            working-directory: ./src
-            run: dotnet build Review-Filmes.sln
-
-          - name: End SonarCloud Analysis
-            working-directory: ./src
-            env:
-              SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-            run: |
-              dotnet sonarscanner end \
-                /d:sonar.login="${SONAR_TOKEN}"
-
+              .\.sonar\scanner\dotnet-sonarscanner begin /k:"limalucas99_master-ci-cd" /o:"limalucas99" /d:sonar.token="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io"
+              dotnet build ./Review-Filmes.sln
+              .\.sonar\scanner\dotnet-sonarscanner end /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
 
