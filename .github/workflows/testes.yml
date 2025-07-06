@@ -77,10 +77,11 @@ jobs:
               SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
             run: |
               # Comprimento do token
-              echo "Length: ${#SONAR_TOKEN}"
+              echo "Length: ${{ secrets.SONAR_TOKEN }}"
 
               # 4 primeiros caracteres
-              echo "First 4 chars: ${SONAR_TOKEN:0:4}"
+              echo "Exibicao 1: ${SONAR_TOKEN}"
+              echo "Exibicao 2: "${SONAR_TOKEN}""
               
           # - name: Build and analyze
           #   working-directory: ./src
