@@ -3,7 +3,7 @@ on:
     workflow_call:
 jobs:
     unit-test:
-        name: Teste de Unidade
+        name: Testes de Unidade
         runs-on: ubuntu-latest
         steps:
           - name: Obtendo o código do projeto
@@ -14,4 +14,30 @@ jobs:
               dotnet-version: "8.0.300"
           - name: Execução do Teste de unidade
             working-directory: ./src
-            run: dotnet test ./Review-Filmes.Test.Unit/Review-Filmes.Test.Unit.csproj
+            run: dotnet test ./Review-Filmes.Test.Unit/Review-Filmes.Test.Unit.
+            
+    integration-test:
+        name: Testes de Integração
+        runs-on: ubuntu-latest
+        services:
+            postgres:
+                image: postgres:latest
+                ports:
+                    - 5432:5432
+                env:
+                    POSTGRES_USER: review
+                    POSTGRES_PASSWORD: postgrespwd
+                    POSTGRES_DB: review-filmes
+        steps:
+          - name: Obtendo o código do projeto
+            uses: actions/checkout@v4
+          - name: Setup dotnet
+            uses: actions/setup-dotnet@v4
+            with:
+              dotnet-version: "8.0.300"
+          - name: Execução do Teste de Integração
+            working-directory: ./src
+            run: dotnet test ./Review-Filmes.Test.Integration/Review-Filmes.Test.Integration.csproj
+            env: 
+                ConnectionStrings_DefaultConnection: "Host=localhost;Database=review;Username=review;Password=postgrespwd"
+
