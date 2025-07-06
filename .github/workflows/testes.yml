@@ -76,6 +76,7 @@ jobs:
             working-directory: ./src
             env:
               SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+            shell: powershell
             run: |
               echo "Meu token do Sonar é ${{ secrets.SONAR_TOKEN }}"
           # - name: Build and analyze
