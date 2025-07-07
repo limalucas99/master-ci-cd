@@ -1,6 +1,9 @@
 name: Execução de Testes
 on:
     workflow_call:
+      secrets:
+        SONAR_TOKEN:
+          required: true
 jobs:
     unit-test:
         name: Testes de Unidade
@@ -68,7 +71,7 @@ jobs:
           - name: Install SonarQube Cloud scanner
             working-directory: ./src
             if: steps.cache-sonar-scanner.outputs.cache-hit != 'true'
-            shell: powershell
+            shell: pwsh
             run: |
               New-Item -Path .\.sonar\scanner -ItemType Directory
               dotnet tool update dotnet-sonarscanner --tool-path .\.sonar\scanner

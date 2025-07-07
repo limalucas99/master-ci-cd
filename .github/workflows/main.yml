@@ -22,6 +22,7 @@ jobs:
 
   testes:
     needs: [build]
+    secrets: inherit
     uses: limalucas99/master-ci-cd/.github/workflows/testes.yml@main
 
   release:
