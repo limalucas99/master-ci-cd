@@ -73,6 +73,9 @@ jobs:
     needs: [release]
     secrets: inherit
     uses: limalucas99/master-ci-cd/.github/workflows/deploy.yml@main
+    with:
+      environment-name: homologacao
+      environment-url: http://limalucas99.online.com
 
   
 

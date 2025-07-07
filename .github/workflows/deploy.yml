@@ -1,6 +1,13 @@
 name: Deploy no Kubernetes
 on:
     workflow_call:
+        inputs:
+          environment-name:
+            type: string
+            required: true
+          environment-url:
+            type: string
+            required: true
         secrets:
             DO_TOKEN:
                 required: true
@@ -11,6 +18,9 @@ jobs:
     deploy:
         name: "Deploy"
         runs-on: ubuntu-latest
+        environment:
+            name: ${{ inputs.environment-name }}
+            url: ${{ inputs.environment-url }}
         steps:
         - name: Setup doctl
           uses: digitalocean/action-doctl@v2
@@ -29,6 +39,7 @@ jobs:
         - name: Execução do Manifesto
           uses: Azure/k8s-deploy@v5
           with:
+            namespace: ${{ secrets.K8S_NAMESPACE }}
             manifests: |
                 k8s/deployment.yaml
             images: |
