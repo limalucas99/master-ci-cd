@@ -92,11 +92,10 @@ jobs:
               .\.sonar\scanner\dotnet-sonarscanner end /d:sonar.login="$env:SONAR_TOKEN"
 
           - name: Verificação do Quality Gateway
-            uses: sonarsource/sonarqube-quality-gate-action@master
+            uses: sonarsource/sonarqube-quality-gate-action@master # Automaticamente falha o JOB caso não passe no Quality Gate
             id: sonarqube-quality-gate-check
             env:
               SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-              SONAR_HOST_URL: "https://sonarcloud.io"
             with:
               scanMetadataReportFile: ./src/.sonarqube/out/.sonar/report-task.txt
 
