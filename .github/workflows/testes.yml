@@ -78,7 +78,7 @@ jobs:
               SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
             shell: pwsh
             run: |
-              .\.sonar\scanner\dotnet-sonarscanner begin /k:"limalucas99_master-ci-cd" /o:"limalucas99" /d:sonar.login="$env:SONAR_TOKEN" /d:sonar.host.url="https://sonarcloud.io"
+              .\.sonar\scanner\dotnet-sonarscanner begin /k:"limalucas99_master-ci-cd" /o:"limalucas99" /d:sonar.login=$env:SONAR_TOKEN /d:sonar.host.url="https://sonarcloud.io"
               dotnet build ./Review-Filmes.sln
-              .\.sonar\scanner\dotnet-sonarscanner end /d:sonar.login="$env:SONAR_TOKEN"
+              .\.sonar\scanner\dotnet-sonarscanner end /d:sonar.login=$env:SONAR_TOKEN
 
