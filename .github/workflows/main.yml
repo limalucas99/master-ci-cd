@@ -69,4 +69,11 @@ jobs:
           category: docker-result
           sarif_file: trivy-docker-result.sarif
 
+  deploy-homolog:
+    needs: [release]
+    secrets: inherit
+    uses: limalucas99/master-ci-cd/.github/workflows/deploy.yml@main
+
+  
+
   
