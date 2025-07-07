@@ -96,6 +96,7 @@ jobs:
             id: sonarqube-quality-gate-check
             env:
               SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+              SONAR_HOST_URL: "https://sonarcloud.io"
             with:
               scanMetadataReportFile: ./src/.sonarqube/out/.sonar/report-task.txt
 
